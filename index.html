@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="OneReward: Unified Mask-Guided Image Generation via Multi-Task Human Preference Learning">
+  <meta name="keywords" content="ReFL">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OneReward: Unified Mask-Guided Image Generation via Multi-Task Human Preference Learning</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="./static/js/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">OneReward: Unified Mask-Guided Image Generation via Multi-Task Human Preference Learning </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=tFGIMJYAAAAJ&hl=zh-CN">Yuan Gong</a><sup>*</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=2uUyEzEAAAAJ&view_op=list_works&sortby=pubdate">Xionghui Wang</a><sup>*†</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=MxvLqLcAAAAJ&hl=zh-CN">Jie Wu</a>,</span>
+            </span>
+            <span class="author-block">
+              <a href="">Shiyin Wang</a>,</span>
+            </span>
+            <span class="author-block">
+              <a href="">Yitong Wang</a>,</span>
+            </span>
+            <span class="author-block">
+              <a href="">Xionglong Wu</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Intelligent Creation Team, ByteDance</span>
+            <span class="eql-cntrb"><small><br><sup>*</sup>Equal Contribution <sup>†</sup>Project Lead </span>
+          </div>
+
+          <div class="column has-text-centered">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2504.16915"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/bytedance/DreamO"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Github</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/LL3RD/DreamFuse" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">🤗</span>
+                  <span>Model (Coming Soon)</span>
+                </a>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/assets/teaser.png" alt="teaser" width="300%">
+      <div class="column has-text-centered">
+        <p>
+          Overall evaluation across four image editing tasks, and text rendering is include in image fill.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this paper, we introduce OneReward, a unified reinforcement learning framework that enhances the model’s generative capabilities across multiple tasks under different evaluation criteria using only One Reward model. By employing a single vision-language model (VLM) as the generative reward model, which can distinguish the winner and loser for a given task and a given evaluation criterion, it can be effectively applied to diffusion-based models, particularly in contexts with varied data and diverse task objectives. We utilize OneReward for mask-guided image generation, which can be further divided into several sub-tasks such as image fill, image extend, object removal, and text rendering, involving a binary mask as the edit area. Although these domain-specific tasks share same conditioning paradigm, they differ significantly in underlying data distributions and evaluation metrics. Existing methods often rely on task-specific supervised fine-tuning (SFT), which limits generalization and training efficiency. Building on OneReward, we develop Seedream 3.0 Fill, a mask-guided generation model trained via multi-task reinforcement learning directly on a pre-trained base model, eliminating the need for task-specific SFT. Experimental results demonstrate that our unified edit model consistently outperforms both commercial and open-source competitors, including Ideogram, Adobe Photoshop, and FLUX.Fill [Pro], across multiple evaluation dimensions.
+          </p>
+        <!-- </div>
+        <video poster="" id="chair-tp" autoplay controls muted loop playsinline width="90%">
+          <source src="static/images/demo_video.mp4"
+                  type="video/mp4">
+        </video>
+      </div> -->
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<!-- Results -->
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container"> 
+      <h2 class="title is-8", style="text-align: center;"> Capablities</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <img src="static/images/c1.png">
+        </div>
+        <div class="item item-chair-tp">
+          <img src="static/images/c2.png">
+        </div>
+        <div class="item item-chair-tp">
+          <img src="static/images/c3.png">
+        </div>
+        <div class="item">
+          <img src="static/images/c4.png">
+        </div>
+        <div class="item item-shiba">
+          <img src="static/images/c5.png">
+        </div>
+        <div class="item item-fullbody">
+          <img src="static/images/c6.png">
+        </div>
+        <div class="item item-blueshirt">
+          <img src="static/images/c7.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/images/c8.png">
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- Methods section -->
+<Section>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Methods</h2>
+      
+      <div class="column is-full-width">
+        <div class="content has-text-justified">
+          <img src="static/assets/model.png">
+        </div>
+        <div class="content has-text-justified">
+          <figcaption>Overall pipeline of our unified RL procedure. We first random sample image and conditions from different task with a certain probability. Start with same condition and different init noise, the reference image is fully denoised using the reference model, denoted as &pi;<sub>ref</sub>(&sdot;). While the evaluation image is partially denoised with randomly selected step and directly predict x<sub>0</sub><sup>&prime;</sup> based on the policy model, denoted as &pi;<sub>&theta;</sub>(&sdot;). The reward model guides learning by encouraging the policy model to achieve superior performance to the reference model across all evaluation dimensions and tasks.</figcaption>
+        </div>
+        <!-- <div class="content has-text-justified">
+          <div class="content-block">
+            <h3>Main Contribution</h3>
+            <ul class="Main Contribution">
+              <li>We propose OneReward, a novel RLHF methodology for the visual domain by employing Qwen2.5-VL as a generative reward model to enhance multitask reinforcement learning, significantly improving the policy model's generation ability across multiple subtask.</li>
+              <li>Building on OneReward, we adopt Seedream 3.0 as the pretrained base model and develop Seedream 3.0 Fill, a unified SOTA image editing model capable of effectively handling diverse tasks including image fill, image extend, object removal, and text rendering. It surpasses several leading commercial and open-source systems, including Ideogram, Adobe Photoshop, and FLUX Fill [Pro].</li>
+              <li>Building on FLUX Fill dev, we introduce and open-source a generalized image editing model named FLUX Fill dev[OneReward], which outperforms the original model in inpainting and outpainting tasks, serving as a powerful new baseline for future research in unified image editing.</li>
+            </ul> -->
+          
+            <!-- <h3>Technical details</h3>
+            <ul class="tech-details">
+              <li>Unified sequence conditioning format for handling diverse inputs in a consistent way</li>
+              <li>Feature routing constraint encourages content fidelity and disentangles control conditions</li>
+              <li>Progressive training in 3 stages:
+                <ol>
+                  <li>Warm-up with simple tasks to establish consistency</li>
+                  <li>Full-task training to enhance customization capability</li>
+                  <li>Quality alignment to mitigate biases from low-quality data</li>
+                </ol>
+              </li>
+            </ul> -->
+          <!-- </div> -->
+          
+          <style>
+            .content-block {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              max-width: 800px;
+              margin: 0 auto;
+            }
+            
+            h3 {
+              color: #333;
+              margin-top: 1.5em;
+              margin-bottom: 0.5em;
+            }
+            
+            .feature-list {
+              padding-left: 1.2em;
+            }
+            
+            .feature-list li {
+              margin-bottom: 0.8em;
+            }
+            
+            .tech-details {
+              padding-left: 1.2em;
+            }
+            
+            strong {
+              color: #2c3e50;
+            }
+          </style>
+        </div>
+      </div>
+  </div>
+</Section>
+<!-- Methods section -->
+
+<Section>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Main Contribution</h2>
+      
+      <div class="column is-full-width">
+        <ol class="Main-Contribution">
+            <li>We propose OneReward, a novel RLHF methodology for the visual domain by employing Qwen2.5-VL as a generative reward model to enhance multitask reinforcement learning, significantly improving the policy model's generation ability across multiple subtask.</li>
+            <li>Building on OneReward, we adopt Seedream 3.0 as the pretrained base model and develop Seedream 3.0 Fill, a unified SOTA image editing model capable of effectively handling diverse tasks including image fill, image extend, object removal, and text rendering. It surpasses several leading commercial and open-source systems, including Ideogram, Adobe Photoshop, and FLUX Fill [Pro].</li>
+            <li>Building on FLUX Fill dev, we introduce and open-source a generalized image editing model named FLUX Fill dev[OneReward], which outperforms the original model in inpainting and outpainting tasks, serving as a powerful new baseline for future research in unified image editing.</li>
+        </ol>
+    
+        <div class="content has-text-justified">
+          
+          <style>
+            .content-block {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              max-width: 800px;
+              margin: 0 auto;
+            }
+            
+            h3 {
+              color: #333;
+              margin-top: 1.5em;
+              margin-bottom: 0.5em;
+            }
+            
+            .feature-list {
+              padding-left: 1.2em;
+            }
+            
+            .feature-list li {
+              margin-bottom: 0.8em;
+            }
+            
+            .tech-details {
+              padding-left: 1.2em;
+            }
+            
+            strong {
+              color: #2c3e50;
+            }
+          </style>
+        </div>
+      </div>
+  </div>
+</Section>
+
+
+<style>
+.img-row {
+  display: flex;
+  flex-wrap: wrap;           /* 允许换行 */
+  justify-content: center;   /* 居中排列 */
+  gap: 30px 20px;             /* gap: 行距 列距 → 行距30px, 列距20px */
+}
+
+/* 单个图片 + 文字的容器 */
+.img-item {
+  flex: 1 1 200px;  /* 最小200px，按比例伸缩 */
+  max-width: 1000px; /* 最大300px 宽（可调整） */
+  text-align: center; /* 文字居中 */
+}
+
+.img-item img {
+  width: 100%;     /* 图片总是填满容器宽度 */
+  height: auto;    /* 高度按比例自动计算 */
+  border-radius: 5px;
+  display: block;  /* 避免底部空隙 */
+}
+/* 文字标题样式 - Times New Roman + 居中 */
+.img-caption {
+  margin-top: 8px;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+  color: #222;
+}
+
+/* 让两张图层重叠 */
+.img-hover-container {
+  position: relative;
+  width: auto;
+  height: 400px;
+}
+
+/* 图片基础样式 */
+.img-hover-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  transition: opacity 0.3s ease;
+}
+
+/* 悬停图默认隐藏 */
+.img-hover-container .hover-img {
+  opacity: 0;
+}
+
+/* 鼠标悬停时显示第二张图，隐藏第一张 */
+.img-hover-container:hover .hover-img {
+  opacity: 1;
+}
+.img-hover-container:hover .default-img {
+  opacity: 0;
+}
+
+
+</style>
+
+<!-- Results -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container"> 
+      <h2 class="title is-8", style="text-align: center;"> More Results</h2>
+      <h4 class="title is-8", style="text-align: left;"> [Image Fill]</h4>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/1.png" alt="Image 1" class="default-img">
+      <img src="static/inpaint_result/1.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image One</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/9.png" alt="Image 2" class="default-img">
+      <img src="static/inpaint_result/9.png" alt="Image 2 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Two</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/3.png" alt="Image 3" class="default-img">
+      <img src="static/inpaint_result/3.png" alt="Image 3 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Three</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/4.png" alt="Image 4" class="default-img">
+      <img src="static/inpaint_result/4.png" alt="Image 4 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Four</div>
+  </div>
+</div>
+<div class="img-row">
+<div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/7.png" alt="Image 1" class="default-img">
+      <img src="static/inpaint_result/7.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image One</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/8.png" alt="Image 2" class="default-img">
+      <img src="static/inpaint_result/8.png" alt="Image 2 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Two</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/6.png" alt="Image 3" class="default-img">
+      <img src="static/inpaint_result/6.png" alt="Image 3 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Three</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/inpaint/5.png" alt="Image 4" class="default-img">
+      <img src="static/inpaint_result/5.png" alt="Image 4 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Four</div>
+  </div>
+  </div>
+        <h4 class="title is-8", style="text-align: left;"> [Image Extend with Prompt]</h4>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_w/2.png" alt="Image 1" class="default-img">
+      <img src="static/outpaint_w_result/2.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image One</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_w/3.png" alt="Image 2" class="default-img">
+      <img src="static/outpaint_w_result/3.png" alt="Image 2 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Two</div>
+  </div>
+  </div>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_w/1.png" alt="Image 3" class="default-img">
+      <img src="static/outpaint_w_result/1.png" alt="Image 3 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Three</div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_w/6.png" alt="Image 4" class="default-img">
+      <img src="static/outpaint_w_result/6.png" alt="Image 4 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image Four</div>
+  </div>
+<div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_w/5.png" alt="Image 1" class="default-img">
+      <img src="static/outpaint_w_result/5.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption">Image One</div>
+  </div>
+
+  </div>
+
+  <h4 class="title is-8", style="text-align: left;"> [Image Extend without Prompt]</h4>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/7.jpg" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/7.jpg" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/9.jpg" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/9.jpg" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/8.jpg" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/8.jpg" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/3.jpg" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/3.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  
+</div>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/5.jpg" alt="Image 3" class="default-img">
+      <img src="static/outpaint_wo_result/5.png" alt="Image 3 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/2.jpg" alt="Image 4" class="default-img">
+      <img src="static/outpaint_wo_result/2.png" alt="Image 4 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+<div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/6.png" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/6.jpg" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/outpaint_wo/4.jpg" alt="Image 1" class="default-img">
+      <img src="static/outpaint_wo_result/4.jpg" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+
+  </div>
+
+  <h4 class="title is-8", style="text-align: left;"> [Object Removal]</h4>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/eraser/1.png" alt="Image 1" class="default-img">
+      <img src="static/eraser_result/1.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/eraser/2.png" alt="Image 1" class="default-img">
+      <img src="static/eraser_result/2.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/eraser/3.png" alt="Image 1" class="default-img">
+      <img src="static/eraser_result/3.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/eraser/4.png" alt="Image 1" class="default-img">
+      <img src="static/eraser_result/4.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/eraser/5.png" alt="Image 1" class="default-img">
+      <img src="static/eraser_result/5.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+</div>
+
+  <h4 class="title is-8", style="text-align: left;"> [Text Rendering]</h4>
+<div class="img-row">
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/font/1.png" alt="Image 1" class="default-img">
+      <img src="static/font_result/1.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/font/2.png" alt="Image 1" class="default-img">
+      <img src="static/font_result/2.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/font/3.png" alt="Image 1" class="default-img">
+      <img src="static/font_result/3.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+  <div class="img-item">
+    <div class="img-hover-container">
+      <img src="static/font/4.png" alt="Image 1" class="default-img">
+      <img src="static/font_result/4.png" alt="Image 1 Hover" class="hover-img">
+    </div>
+    <div class="img-caption"></div>
+  </div>
+</div>
+<!-- <div class="img-hover-container">
+  <img src="static/inpaint/1.png" alt="默认图" class="default-img">
+  <img src="static/inpaint_result/1.png" alt="悬停图" class="hover-img">
+</div> -->
+      <!-- <div class="gallery"> -->
+        <!-- <div class="img-hover-container">
+            <img src="static/inpaint/1.png" class="img-default">
+            <img src="static/inpaint_result/1.png" class="img-hover">
+        </div>
+        <div class="img-hover-container">
+            <img src="static/inpaint/2.png" class="img-default">
+            <img src="static/inpaint_result/2.png" class="img-hover">
+        </div> -->
+        <!-- 可以继续增加 -->
+       <!-- </div> -->
+
+      <!-- <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-chair-tp">
+          <img src="static/assets/a4.png">
+        </div>
+        <div class="item item-chair-tp">
+          <img src="static/assets/a5.png">
+        </div>
+        <div class="item">
+          <img src="static/assets/a6.png">
+        </div>
+        <div class="item item-shiba">
+          <img src="static/assets/a7.png">
+        </div>
+        <div class="item item-fullbody">
+          <img src="static/assets/a8.png">
+        </div>
+        <div class="item item-blueshirt">
+          <img src="static/assets/a9.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/assets/a10.png">
+        </div>
+        <div class="item item-blueshirt">
+          <img src="static/assets/a1.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/assets/a2.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/assets/a11.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/assets/a12.png">
+        </div> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is modified from the <a href="https://nerfies.github.io/">Nerfies</a>, which is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

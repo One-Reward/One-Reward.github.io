@@ -360,7 +360,7 @@
             In this paper, we introduce <span class="abstract-highlight">OneReward</span>, a unified reinforcement learning framework that enhances the model’s generative capabilities across multiple tasks under different evaluation criteria using only One Reward model.
           </p>
           <p>
-            By employing a single <span class="abstract-highlight">vision-language model (VLM)</span> as the generative reward model, which can distinguish the winner and loser for a given task and a given evaluation criterion, it can be effectively applied to diffusion-based models, particularly in contexts with varied data and diverse task objectives. We utilize OneReward for <span class="abstract-highlight">mask-guided image generation</span>, which can be further divided into several sub-tasks such as image fill, image extend, object removal, and text rendering, involving a binary mask as the edit area. Although these domain-specific tasks share same conditioning paradigm, they differ significantly in underlying data distributions and evaluation metrics. 
+            By employing a <span class="abstract-highlight">single vision-language model (VLM)</span> as the generative reward model, which can distinguish the winner and loser for a given task and a given evaluation criterion, it can be effectively applied to diffusion-based models, particularly in contexts with varied data and diverse task objectives. We utilize OneReward for mask-guided image generation, which can be further divided into several sub-tasks such as image fill, image extend, object removal, and text rendering, involving a binary mask as the edit area. Although these domain-specific tasks share same conditioning paradigm, they differ significantly in underlying data distributions and evaluation metrics. 
           </p>
           <p>
             Existing methods often rely on task-specific supervised fine-tuning (SFT), which limits generalization and training efficiency. Building on OneReward, we develop <span class="abstract-highlight">Seedream 3.0 Fill</span>, a mask-guided generation model trained via multi-task reinforcement learning directly on a pre-trained base model, eliminating the need for task-specific SFT. Experimental results demonstrate that our unified edit model consistently outperforms both commercial and open-source competitors, including Ideogram, Adobe Photoshop, and FLUX.Fill [Pro], across multiple evaluation dimensions.
@@ -384,7 +384,7 @@
       <div class="static-gallery">
         <div class="gallery-item-1">
           <img class="small-image" src="static/assets/model.webp" alt="Framework Image 2"/>
-          <p class="image-caption-display"><span class="abstract-highlight-title">RL pipeline:</span>
+          <p class="image-caption-display"><span class="abstract-highlight-title">Pipeline:</span>
             Overall pipeline of our unified RL procedure. We first random sample image and conditions from different task with a certain probability. Start with same condition and different init noise, the reference image is fully denoised using the reference model, denoted as &pi;<sub>ref</sub>(&sdot;). While the evaluation image is partially denoised with randomly selected step and directly predict x<sub>0</sub><sup>&prime;</sup> based on the policy model, denoted as &pi;<sub>&theta;</sub>(&sdot;). The reward model guides learning by encouraging the policy model to achieve superior performance to the reference model across all evaluation dimensions and tasks.</p>
         </div>
         <div class="gallery-item-1">
@@ -481,67 +481,6 @@
 		</div>
   </div>
 
-  <h3 class="title-h3", style="text-align: left;">Image Extend with prompt</h3>
-    <div class="gallery-grid-twoimg">
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/2.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/2.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">colorful hot air balloon</p>
-		</div>
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/3.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/3.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">cable car</p>
-		</div>
-		</div>
-    <div class="gallery-grid">
-    
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/1.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/1.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">Two burgundy Chinese style lanterns</p>
-		</div>
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/6.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/6.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">holding a bouquet of pale pink roses in her hands</p>
-		</div>
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/5.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/5.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">airplane</p>
-		</div>
-        <div class="gallery-item">
-		  <div class="image-container">
-			<div class="image-stack">
-			  <img src="static/outpaint_w/4.webp" alt="Before" class="image-left" loading="lazy">
-			  <img src="static/outpaint_w_result/4.webp" alt="After" class="image-right" loading="lazy">
-			</div>
-		  </div>
-            <p class="image-caption-display-center">A girl in a red dress holding an umbrella.</p>
-		</div>
-  </div>
-
   <h3 class="title-h3", style="text-align: left;">Image Extend without prompt</h3>
     <div class="gallery-grid">
         <div class="gallery-item">
@@ -617,6 +556,69 @@
             <!-- <p class="image-caption-display-center">jk uniform</p> --> 
 		</div>
   </div>
+  
+  <h3 class="title-h3", style="text-align: left;">Image Extend with prompt</h3>
+    <div class="gallery-grid-twoimg">
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/2.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/2.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">colorful hot air balloon</p>
+		</div>
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/3.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/3.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">cable car</p>
+		</div>
+		</div>
+    <div class="gallery-grid">
+    
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/1.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/1.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">Two burgundy Chinese style lanterns</p>
+		</div>
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/6.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/6.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">holding a bouquet of pale pink roses in her hands</p>
+		</div>
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/5.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/5.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">airplane</p>
+		</div>
+        <div class="gallery-item">
+		  <div class="image-container">
+			<div class="image-stack">
+			  <img src="static/outpaint_w/4.webp" alt="Before" class="image-left" loading="lazy">
+			  <img src="static/outpaint_w_result/4.webp" alt="After" class="image-right" loading="lazy">
+			</div>
+		  </div>
+            <p class="image-caption-display-center">A girl in a red dress holding an umbrella.</p>
+		</div>
+  </div>
+
+  
   <h3 class="title-h3", style="text-align: left;">Object Removal</h3>
     <div class="gallery-grid">
         <div class="gallery-item">

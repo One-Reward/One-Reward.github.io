@@ -384,7 +384,7 @@
       <div class="static-gallery">
         <div class="gallery-item-1">
           <img class="small-image" src="static/assets/model.webp" alt="Framework Image 2"/>
-          <p class="image-caption-display"><span class="abstract-highlight-title">Pipeline:</span>
+          <p class="image-caption-display"><span class="abstract-highlight-title">RL Pipeline:</span>
             Overall pipeline of our unified RL procedure. We first random sample image and conditions from different task with a certain probability. Start with same condition and different init noise, the reference image is fully denoised using the reference model, denoted as &pi;<sub>ref</sub>(&sdot;). While the evaluation image is partially denoised with randomly selected step and directly predict x<sub>0</sub><sup>&prime;</sup> based on the policy model, denoted as &pi;<sub>&theta;</sub>(&sdot;). The reward model guides learning by encouraging the policy model to achieve superior performance to the reference model across all evaluation dimensions and tasks.</p>
         </div>
         <div class="gallery-item-1">
